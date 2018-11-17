@@ -94,7 +94,7 @@ namespace MSROM
                 if (a[i] < b[i]) { return "a<b"; }
                 else if (a[i] > b[i]) { return "a>b"; }
             }
-            return "a=b";
+            return "a=b" ;
         }
 
         static void Main(string[] args)
