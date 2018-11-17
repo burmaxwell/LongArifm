@@ -35,13 +35,13 @@ namespace MSROM
             Array.Resize(ref a, maxlenght);
             Array.Resize(ref b, maxlenght);
             ulong carry = 0;
-           
             for (int i = 0; i < maxlenght; i++)
             {
                 ulong temp =a[i] + b[i] + carry;
                 answer[i] = temp;
                 if (temp < a[i]) { carry = 1; }
                 else if (temp > a[i]) { carry = 0; }
+               
             }
             string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong) * 2, '0')).Reverse()).TrimStart('0');
             if (ans != checking)
@@ -56,7 +56,7 @@ namespace MSROM
 
         public static string Subtraction(ulong[] a, ulong[] b)
         {
-            var checking = "5DB3F77B1BAEF00A775DCC36FE2FCD4FBCFF03A3F10479FA092073A2688A00C";//
+            var checking = "5DB3F77B1BAEF00A775DCC36FE2FCD4FBCFF03A3F10479FA092073A2688A00C";
             var maxlenght = Math.Max(a.Length, b.Length);
             Array.Resize(ref a, maxlenght);
             Array.Resize(ref b, maxlenght);
@@ -66,17 +66,18 @@ namespace MSROM
             for (int i=0;i<a.Length;i++)
             {
                 temp=a[i] - b[i] - borrow;
-                if (temp>=0)
+                if (temp<=a[i])
                 {
                     answer[i] = temp;
                     borrow = 0;
                 }
-                else
+                else 
                 {
-                    answer[i] = temp & 0xFFFFFFFF;
+                    answer[i] = temp & 0xffffffff;
                     borrow = 1;
                 }
             }
+            
             string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong) * 2, '0')).Reverse()).TrimStart('0');
             if (ans != checking)
             {
@@ -87,16 +88,31 @@ namespace MSROM
 
             return ans;
         }
+
+        static string  LongCmp(ulong[] a, ulong[] b)
+        {
+            var maxlenght = Math.Max(a.Length, b.Length);
+            Array.Resize(ref a, maxlenght);
+            Array.Resize(ref b, maxlenght);
+            for (int i = 0; i < maxlenght; i++)
+            {
+                if (a[i] < b[i]) { return "a<b"; }
+                else if (a[i] > b[i]) { return "a>b"; }
+            }
+            return "a=b";
+        }
+
         static void Main(string[] args)
         { 
-            string a = "708E5AEA4A02082BF054AB926BE247D06302576CBF95E057F6AD0842F5DC6EA";//
-            string b = "12DA636F2E53182178F6DF5B6DB27A80A60353C8CE91665DED8C94A08D526DE";//
+            string a = "708E5AEA4A02082BF054AB926BE247D06302576CBF95E057F6AD0842F5DC6EA";
+            string b = "12DA636F2E53182178F6DF5B6DB27A80A60353C8CE91665DED8C94A08D526DE";
             ulong[] p = new ulong[1];
             ulong[] p1 = new ulong[1];
             p1 = toulong(b);
             p = toulong(a);
             Console.WriteLine(Addition(p1, p));
             Console.WriteLine(Subtraction(p1, p));
+            Console.WriteLine(LongCmp(p1, p));
             Console.ReadKey();
 
 
