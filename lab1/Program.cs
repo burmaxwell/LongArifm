@@ -29,7 +29,7 @@ namespace MSROM
     
         public static string Addition(ulong[] a, ulong[] b)
         {
-            var checking = "8368BE597855204D694B8AEDD994C2510905AB358E2746B5E4399CE3832EDC8";
+            var checking = "B97928E841554F55171B071F1D5B034A243C234B011F51AD3FEBA540BDF24EAA";
             var maxlenght = Math.Max(a.Length, b.Length);
             var answer = new ulong[maxlenght+1];
             Array.Resize(ref a, maxlenght);
@@ -44,19 +44,16 @@ namespace MSROM
                
             }
             string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong) * 2, '0')).Reverse()).TrimStart('0');
-            if (ans != checking)
-            {
-                Console.WriteLine("VSYO FIGIVO, DYADYA!");
-            }
-            else
-                Console.WriteLine("VSYO NARMALNA");
+                Console.WriteLine("Result we need : " +"B97928E841554F55171B071F1D5B034A243C234B011F51AD3FEBA540BDF24EAA");
+            
+                Console.Write("    Result     : ");
         
             return ans;
         }
 
         public static string Subtraction(ulong[] a, ulong[] b)
         {
-            var checking = "5DB3F77B1BAEF00A775DCC36FE2FCD4FBCFF03A3F10479FA092073A2688A00C";
+            var checking = "1EAC8F0992F957472689F3113D23EEF2613420BCA85A860A1122CD80165E738E";
             var maxlenght = Math.Max(a.Length, b.Length);
             Array.Resize(ref a, maxlenght);
             Array.Resize(ref b, maxlenght);
@@ -76,15 +73,13 @@ namespace MSROM
                     answer[i] = temp & 0xffffffff;
                     borrow = 1;
                 }
+       
             }
             
             string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong) * 2, '0')).Reverse()).TrimStart('0');
-            if (ans != checking)
-            {
-                Console.WriteLine("VSYO FIGIVO, DYADYA!");
-            }
-            else
-                Console.WriteLine("VSYO NARMALNA");
+                Console.WriteLine("Result we need : "+ "1EAC8F0992F957472689F3113D23EEF2613420BCA85A860A1122CD80165E738E");
+            
+                Console.Write("     Result    : " );
 
             return ans;
         }
@@ -104,14 +99,17 @@ namespace MSROM
 
         static void Main(string[] args)
         { 
-            string a = "708E5AEA4A02082BF054AB926BE247D06302576CBF95E057F6AD0842F5DC6EA";
-            string b = "12DA636F2E53182178F6DF5B6DB27A80A60353C8CE91665DED8C94A08D526DE";
+            string a = "6C12DBF8EA27534E1ED27D182D3F791E42B82203D4BCEBDBA88739606A28611C";
+            string b = "4D664CEF572DFC06F8488A06F01B8A2BE18401472C6265D197646BE053C9ED8E";
             ulong[] p = new ulong[1];
             ulong[] p1 = new ulong[1];
             p1 = toulong(b);
             p = toulong(a);
+            Console.WriteLine("Addition");
             Console.WriteLine(Addition(p1, p));
+            Console.WriteLine("\nSubtraction");
             Console.WriteLine(Subtraction(p1, p));
+            Console.Write("\nComparison:");
             Console.WriteLine(LongCmp(p1, p));
             Console.ReadKey();
 
