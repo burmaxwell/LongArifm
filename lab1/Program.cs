@@ -26,7 +26,25 @@ namespace MSROM
             return mass;
 
         }
-    
+
+        static public ulong[] toulong32(string a)
+        {
+            string temp = a;
+            while (temp.Length % 8 != 0)
+            {
+                temp = "0" + temp;
+            }
+
+            var mass = new ulong[temp.Length / 8];
+            for (int i = 0; i < temp.Length; i += 8)
+            {
+                mass[i / 8] = Convert.ToUInt64(temp.Substring(i, 8), 16);
+            }
+            Array.Reverse(mass);
+            return mass;
+
+        }
+
         public static string Addition(ulong[] a, ulong[] b)
         {
             //var checking = "B97928E841554F55171B071F1D5B034A243C234B011F51AD3FEBA540BDF24EAA";
@@ -39,36 +57,19 @@ namespace MSROM
             {
                 ulong temp =a[i] + b[i] + carry;
                 answer[i] = temp;
+                
                 if (temp < a[i]) { carry = 1; }
                 else if (temp > a[i]) { carry = 0; }
                
             }
             string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong) * 2, '0')).Reverse()).TrimStart('0');
-                Console.WriteLine("Result we need : " + "BC3E2A381948D7E2C813953A2EEBF6DDA3768FB8FB29CC904CB7C55529CE92CB");
+                Console.WriteLine("Result we need : " + "D5933046D35EB56566F7A16368903E8E599FE62810F41D53B70DD81D10B9317C");
             
                 Console.Write("    Result     : ");
         
             return ans;
         }
 
-        public static ulong[] AdditionUlong(ulong[] a, ulong[] b)
-        {
-            //var checking = "B97928E841554F55171B071F1D5B034A243C234B011F51AD3FEBA540BDF24EAA";
-            var maxlenght = Math.Max(a.Length, b.Length);
-            var answer = new ulong[maxlenght + 1];
-            Array.Resize(ref a, maxlenght);
-            Array.Resize(ref b, maxlenght);
-            ulong carry = 0;
-            for (int i = 0; i < maxlenght; i++)
-            {
-                ulong temp = a[i] + b[i] + carry;
-                answer[i] = temp;
-                if (temp < a[i]) { carry = 1; }
-                else if (temp > a[i]) { carry = 0; }
-
-            }
-            return answer;
-        }
 
         public static string Subtraction(ulong[] a, ulong[] b)
         {
@@ -96,11 +97,29 @@ namespace MSROM
             }
             
             string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong) * 2, '0')).Reverse()).TrimStart('0');
-                Console.WriteLine("Result we need : "+ "94531BBBBAB27452FF4CE1D89FEDE9F39A2EEC401F0AA40EF200DFD9FF9795D5");
+                Console.WriteLine("Result we need : "+ "A56CB502A7364D185BA759FB74AECD8C0C5437041234FFE160902DF957C436C2");
             
                 Console.Write("     Result    : " );
 
             return ans;
+        }
+//-----------------------------------------------------------------------------------
+
+        public static ulong[] AdditionUlong(ulong[] a, ulong[] b)
+        {
+            //var checking = "B97928E841554F55171B071F1D5B034A243C234B011F51AD3FEBA540BDF24EAA";
+            var maxlenght = Math.Max(a.Length, b.Length);
+            var answer = new ulong[maxlenght + 1];
+            Array.Resize(ref a, maxlenght);
+            Array.Resize(ref b, maxlenght);
+            ulong carry = 0;
+            for (int i = 0; i < maxlenght; i++)
+            {
+                ulong temp = a[i] + b[i] + carry;
+                carry = temp >> 32;
+                answer[i] = temp & 0xffffffff;
+            }
+            return answer;
         }
 
         public static ulong[] LongMulOneDigit(ulong [] a, ulong b)
@@ -110,8 +129,8 @@ namespace MSROM
             for (int i = 0; i < a.Length; i++)
             {
                 temp = a[i] * b + carry;
-                carry = temp >> 64;
-                c[i] = temp ;
+                carry = temp >> 32;
+                c[i] = temp&0xffffffff ;
             }
             c[a.Length] = carry;
 
@@ -138,13 +157,15 @@ namespace MSROM
                 temp = LongShiftDigitsToHigh(temp, i);
                 answer = AdditionUlong(answer, temp);
             }
-            string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong) * 2, '0')).Reverse()).TrimStart('0');
-            Console.WriteLine("Result we need : " + "D1ECA83B42AC9EC53A009B95CAE901FB6F5E3AF4AB1A397D520254B04FB9AE16BA7F90C8C4490AD2111DB1797C92C758297F78BCFF97802C13CD2CA4A7A2270");
+            string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong), '0')).Reverse()).TrimStart('0');
+            Console.WriteLine("Result we need : " + "11D23CDDEC19C973A5168D729155A589FE5153D6184A847CB7D30ED4D25BD8410E7A9D746A6C071E7FB5C954898564FEE645A00118E4DDBC6B771D5013809243");
 
             Console.Write("     Result        : ");
 
             return ans;
         }
+
+//--------------------------------------------------------------------------------------------
 
         static string  LongCmp(ulong[] a, ulong[] b)
         {
@@ -161,8 +182,8 @@ namespace MSROM
 
         static void Main(string[] args)
         { 
-            string a = "A848A2F9E9FDA61AE3B03B89676CF0689ED2BDFC8D1A384F9F5C529794B31450";
-            string b = "13F5873E2F4B31C7E46359B0C77F067504A3D1BC6E0F9440AD5B72BD951B7E7B";
+            string a = "BD7FF2A4BD4A813EE14F7DAF6E9F860D32FA0E9611948E9A8BCF030B343EB41F";
+            string b = "18133DA21614342685A823B3F9F0B88126A5D791FF5F8EB92B3ED511DC7A7D5D";
             ulong[] p = new ulong[1];
             ulong[] p1 = new ulong[1];
             p1 = toulong(b);
@@ -174,7 +195,7 @@ namespace MSROM
             Console.Write("\nComparison:");
             Console.WriteLine(LongCmp(p, p1));
             Console.Write("\nMul:");
-            Console.WriteLine(LongMul(p, p1));
+            Console.WriteLine(LongMul(p=toulong32(a), p1=toulong32(b)));
             Console.ReadKey();
 
 
