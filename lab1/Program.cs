@@ -192,7 +192,7 @@ namespace MSROM
                 if (a[i] < b[i]) { return -1; }
                 else if (a[i] > b[i]) { return 1; }
             }
-            return 0 ;
+            return 0 ;//
         }
 
         public static int BitLength(ulong[] a)
