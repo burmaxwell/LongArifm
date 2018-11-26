@@ -192,25 +192,27 @@ namespace MSROM
                 if (a[i] < b[i]) { return -1; }
                 else if (a[i] > b[i]) { return 1; }
             }
-            return 0 ;//
+            return 0 ;
         }
 
         public static int BitLength(ulong[] a)
         {
             int t = 0;
-            int i = a.Length - 1;
+            int i = a.Length-1 ;
+            var n = a[i];
             while (a[i] == 0)
             {
                 if (i < 0)
                     return 0;
                 i--;
             }
-            var n = a[i];
+
             while (n > 0)
             {
                 t++;
                 n = n >> 1;
             }
+
             t = t + 32 * i;
             return t;
         }
@@ -227,25 +229,22 @@ namespace MSROM
             {
                 n = a[i];
                 n = n << s;
-                if (i==0) { C[i] = (n & 0xFFFFFFFF) + carry; }
+                //if (i==0) { C[i] = (n & 0xFFFFFFFF) + carry; }
                 C[i + t] = (n & 0xFFFFFFFF) + carry;
                 carry = (n & 0xFFFFFFFF00000000) >> 32;
             }
-            Array.Reverse(C);
             return C;
         }
      
         public static string LongDivInternal(ulong[] a, ulong[] b)
         {
-            var maxlenght = Math.Max(a.Length, b.Length);
-            Array.Resize(ref a, maxlenght);
-            Array.Resize(ref b, maxlenght);
             var k = BitLength(b);
             var R = a;
             ulong[] Q = new ulong[a.Length];
             ulong[] T = new ulong[a.Length];
+            ulong[] C = new ulong[a.Length];
             T[0] = 0x1;
-            ulong[] C;
+            
             while (LongCmp(R, b) >= 0)
             {
                 var t = BitLength(R);
@@ -258,8 +257,9 @@ namespace MSROM
                 R = SubtractionUlong(R, C);
                 Q = AdditionUlong(Q, LongShiftBitsToHigh(T, t - k));
             }
+
             string ans = string.Concat(Q.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong), '0')).Reverse()).TrimStart('0');
-            Console.WriteLine("Result we need : " + "3.56FD3D1E43DE80000000");
+            Console.WriteLine("Result we need : " + "16fdcdcdc");
 
             Console.Write("     Result        : ");
             return ans;
@@ -267,30 +267,33 @@ namespace MSROM
 
         static void Main(string[] args)
         { 
-            string a = "ABCDEFABCDEFABCDEFABCDEFABCDEFABCDEFABCDEFABCDEFABCDEFABCDEF0000000000000000000000";
-            string b = "ABCDEFABCDEFABCDEFABCDEFABCDEFABCDEFABCDEFABCDEFABCDEFABCDEF0000000000000000000000";
+            string a = "ffffff";
+            string b = "77";
             ulong[] p = new ulong[1];
             ulong[] p1 = new ulong[1];
             p1 = toulong32(b);
             p = toulong32(a);
-             Console.WriteLine("Addition");
+            /* Console.WriteLine("Addition");
              Console.WriteLine(Addition(p, p1));
              Console.WriteLine("\nSubtraction");
              Console.WriteLine(Subtraction(p, p1));
              Console.Write("\nComparison:");
              Console.WriteLine(LongCmp(p, p1));
              Console.Write("\nMul:");
-             Console.WriteLine(LongMul(p, p1));
+             Console.WriteLine(LongMul(p, p1));*/
              Console.Write("\nDiv:");
              Console.WriteLine(LongDivInternal(p, p1));
-             Console.WriteLine(LongShiftBitsToHigh(p, 55));
+            Console.WriteLine(BitLength(p));
+            Console.WriteLine(BitLength(p1));
 
-    
-            
+            //Console.WriteLine(LongShiftBitsToHigh(p, 55));
+
+
+
 
             //Console.WriteLine(BitLength(p));
             //Console.WriteLine(BitLength(p1));
- 
+
             Console.ReadKey();
 
 
