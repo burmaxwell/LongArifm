@@ -30,7 +30,6 @@ namespace MSROM
 
         public static string Addition(ulong[] a, ulong[] b)
         {
-            //var checking = "B97928E841554F55171B071F1D5B034A243C234B011F51AD3FEBA540BDF24EAA";
             var maxlenght = Math.Max(a.Length, b.Length);
             var answer = new ulong[maxlenght+1];
             Array.Resize(ref a, maxlenght);
@@ -41,14 +40,13 @@ namespace MSROM
                 ulong temp =a[i] + b[i] + carry;
                 if (temp < a[i]) { carry = 1; }
                 else if (temp > a[i]) { carry = 0; }
-                //carry = temp >> 32;
                 answer[i] = temp & 0xffffffff;
 
                 
                
             }
             string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong), '0')).Reverse()).TrimStart('0');
-                Console.WriteLine("Result we need : " + "F71EEAF6B98DC9AA91A720C72624053023858AC2D5A636E2D26630132C80EA8C");
+                Console.WriteLine("Result we need : " + "DA54690ADF08F78A8586C4B9C133D117F4EE570F65087EC4D34D5EC02AD80456");
             
                 Console.Write("    Result     : ");
         
@@ -58,7 +56,6 @@ namespace MSROM
 
         public static string Subtraction(ulong[] a, ulong[] b)
         {
-            //var checking = "1EAC8F0992F957472689F3113D23EEF2613420BCA85A860A1122CD80165E738E";
             var maxlenght = Math.Max(a.Length, b.Length);
             Array.Resize(ref a, maxlenght);
             Array.Resize(ref b, maxlenght);
@@ -82,17 +79,15 @@ namespace MSROM
             }
             
             string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong) , '0')).Reverse()).TrimStart('0');
-                Console.WriteLine("Result we need : "+ "8D3075C7AAEC26D7E6A43963E6455AC5C3CD3CF57EDDD2EE233D3EB09050D08A");
+                Console.WriteLine("Result we need : "+ "689D2A3F6D49E3E348ACF689351C325329D534110E1241B2901FF9413F6EB402");
             
                 Console.Write("     Result    : " );
 
             return ans;
         }
-//-----------------------------------------------------------------------------------
 
        public static ulong[] AdditionUlong(ulong[] a, ulong[] b)
         {
-            //var checking = "B97928E841554F55171B071F1D5B034A243C234B011F51AD3FEBA540BDF24EAA";
             var maxlenght = Math.Max(a.Length, b.Length);
             var answer = new ulong[maxlenght + 1];
             Array.Resize(ref a, maxlenght);
@@ -109,7 +104,6 @@ namespace MSROM
 
         public static ulong[] SubtractionUlong(ulong[] a, ulong[] b)
         {
-            //var checking = "1EAC8F0992F957472689F3113D23EEF2613420BCA85A860A1122CD80165E738E";
             var maxlenght = Math.Max(a.Length, b.Length);
             Array.Resize(ref a, maxlenght);
             Array.Resize(ref b, maxlenght);
@@ -173,21 +167,19 @@ namespace MSROM
                 answer = AdditionUlong(answer, temp);
             }
             string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong), '0')).Reverse()).TrimStart('0');
-            Console.WriteLine("Result we need : " + "1230C20E8CA5F3DF17237");
+            Console.WriteLine("Result we need : " + "23DCF2FACF21A662203114F71EEA204CBF306A3ED17432A279050FE70CA21EC48CF31F961224F87E07E064C57A6FB9B5C32BDF08670E6717B56191CDD739FF38");
 
             Console.Write("     Result        : ");
 
             return ans;
         }
 
-//--------------------------------------------------------------------------------------------
-
         static int  LongCmp(ulong[] a, ulong[] b)
         {
             var maxlenght = Math.Max(a.Length, b.Length);
             Array.Resize(ref a, maxlenght);
             Array.Resize(ref b, maxlenght);
-            for (int i = 0; i<a.Length; i++)
+            for (int i = a.Length-1; i>-1; i--)
             {
                 if (a[i] < b[i]) { return -1; }
                 if (a[i] > b[i]) { return 1; }
@@ -222,16 +214,16 @@ namespace MSROM
             int t = b / 32;
             int s = b - t * 32;
             ulong n, carry = 0;
-            ulong[] C = new ulong[a.Length + t];
-            //--------------------------------------------//
+            ulong[] C = new ulong[a.Length + t+1];
             for (int i = 0; i < a.Length; i++)
-            {  
+            {
                 n = a[i];
                 n = n << s;
-                //if (i==0) { C[i] = (n & 0xFFFFFFFF) + carry; }
-                C[i+t] = (n & 0xFFFFFFFF) ^ carry;
+                C[i + t] = (n & 0xFFFFFFFF) + carry;
                 carry = (n & 0xFFFFFFFF00000000) >> 32;
+
             }
+            C[C.Length - 1] = carry;
             return C;
         }
      
@@ -258,41 +250,33 @@ namespace MSROM
             }
 
             string ans = string.Concat(Q.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong), '0')).Reverse()).TrimStart('0');
-            Console.WriteLine("Result we need : " + "5C42488F9D580BBA73B6AB5FAEAB251C023E016259A48D44B1947A3837BA0E29");
+            Console.WriteLine("Result we need : " + "2.D704EC9A84D1C0000000");
 
             Console.Write("     Result        : ");
             return ans;
         }
 
+
         static void Main(string[] args)
         { 
-            string a = "D7FEF8197C133E4A8C68D83AD62AA5B7920CAADA41947129763ADC58C8E99DD40E5C0DF8222D3FE3B432CD6F0F97C7168CF0A2E7911157DDFA94986D21ABC9B6";
-            string b = "E8B40937A59BA0EF9D99D002CF4E73901228C587137C053BAB1887794154E8DD";
+            string a = "A178C9A526296DB6E719DDA17B2801B58F61C590398D603BB1B6AC00B5235C2C";
+            string b = "38DB9F65B8DF89D39E6CE718460BCF62658C917F2B7B1E892196B2BF75B4A82A";
             ulong[] p = new ulong[1];
             ulong[] p1 = new ulong[1];
             p1 = toulong32(b);
             p = toulong32(a);
-            /* Console.WriteLine("Addition");
+             Console.WriteLine("Addition");
              Console.WriteLine(Addition(p, p1));
              Console.WriteLine("\nSubtraction");
              Console.WriteLine(Subtraction(p, p1));
              Console.Write("\nComparison:");
              Console.WriteLine(LongCmp(p, p1));
              Console.Write("\nMul:");
-             Console.WriteLine(LongMul(p, p1));*/
+             Console.WriteLine(LongMul(p, p1));
              Console.Write("\nDiv:");
              Console.WriteLine(LongDivInternal(p, p1));
-            Console.WriteLine(BitLength(p));
-            Console.WriteLine(BitLength(p1));
-
-            //Console.WriteLine(LongShiftBitsToHigh(p, 55));
-
-
-
-
-            //Console.WriteLine(BitLength(p));
-            //Console.WriteLine(BitLength(p1));
-
+             Console.WriteLine(BitLength(p));
+             Console.WriteLine(BitLength(p1));
             Console.ReadKey();
 
 
