@@ -46,7 +46,7 @@ namespace MSROM
                
             }
             string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong), '0')).Reverse()).TrimStart('0');
-                Console.WriteLine("Result we need : " + "DA54690ADF08F78A8586C4B9C133D117F4EE570F65087EC4D34D5EC02AD80456");
+                Console.WriteLine("Result we need : " + "D31C2A660F5CFAB821AE0075CD6AD1276E8C69A3FF33B6995D481B8D768F3F0906748F7FBC51EE32561CCA7592D9198E62A6482026CC05F4273AE15C4EF0771A");
             
                 Console.Write("    Result     : ");
         
@@ -79,7 +79,7 @@ namespace MSROM
             }
             
             string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong) , '0')).Reverse()).TrimStart('0');
-                Console.WriteLine("Result we need : "+ "689D2A3F6D49E3E348ACF689351C325329D534110E1241B2901FF9413F6EB402");
+                Console.WriteLine("Result we need : "+ "7443F4F4B2F41A16BB20D68FF811FE5B56483CF24178E02326133CE2C59BA57B4134E383130C3DA324F295B165636138B57BC11449A710A12339D52984C269C");
             
                 Console.Write("     Result    : " );
 
@@ -167,7 +167,7 @@ namespace MSROM
                 answer = AdditionUlong(answer, temp);
             }
             string ans = string.Concat(answer.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong), '0')).Reverse()).TrimStart('0');
-            Console.WriteLine("Result we need : " + "23DCF2FACF21A662203114F71EEA204CBF306A3ED17432A279050FE70CA21EC48CF31F961224F87E07E064C57A6FB9B5C32BDF08670E6717B56191CDD739FF38");
+            Console.WriteLine("Result we need : " + "2B78A8D560B1E846ABF8B3A78FE5B28969C7F8894145A16A32F3735A3942BFCD7E173C4B4F7D6A64777AFFEAA7E28E9A4B9B2D7192F98EB08DE591BEE4D939445D3D3BA67759EAF0C30568742A041F2E587D0273265C70A2FCED488C88A75ED010B28E2BEFBCA994848C974284460EB6CAC5D6049300FC5CB15A882CCB6D9FE5");
 
             Console.Write("     Result        : ");
 
@@ -250,7 +250,7 @@ namespace MSROM
             }
 
             string ans = string.Concat(Q.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong), '0')).Reverse()).TrimStart('0');
-            Console.WriteLine("Result we need : " + "2.D704EC9A84D1C0000000");
+            Console.WriteLine("Result we need : " + "1.111");
 
             Console.Write("     Result        : ");
             return ans;
@@ -259,8 +259,8 @@ namespace MSROM
 
         static void Main(string[] args)
         { 
-            string a = "A178C9A526296DB6E719DDA17B2801B58F61C590398D603BB1B6AC00B5235C2C";
-            string b = "38DB9F65B8DF89D39E6CE718460BCF62658C917F2B7B1E892196B2BF75B4A82A";
+            string a = "6D3034DAAD461E2CC6B006EF6675F88691F876B991A5A24DC7D4A7ADD1747CB05D43EEDBF6C159064435F9E85497A7D0F6FF0218B5B33B7F1CB73F57739E4EDB";
+            string b = "65EBF58B6216DC8B5AFDF98666F4D8A0DC93F2EA6D8E144B957373DFA51AC258A930A0A3C590952C11E6D08D3E4171BD6BA746077118CA750A83A204DB52283F";
             ulong[] p = new ulong[1];
             ulong[] p1 = new ulong[1];
             p1 = toulong32(b);
