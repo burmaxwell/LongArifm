@@ -187,10 +187,10 @@ namespace MSROM
             var maxlenght = Math.Max(a.Length, b.Length);
             Array.Resize(ref a, maxlenght);
             Array.Resize(ref b, maxlenght);
-            for (int i = 0; i < maxlenght; i++)
+            for (int i = 0; i<a.Length; i++)
             {
                 if (a[i] < b[i]) { return -1; }
-                else if (a[i] > b[i]) { return 1; }
+                if (a[i] > b[i]) { return 1; }
             }
             return 0 ;
         }
@@ -198,15 +198,14 @@ namespace MSROM
         public static int BitLength(ulong[] a)
         {
             int t = 0;
-            int i = a.Length-1 ;
-            var n = a[i];
+            int i = a.Length-1 ; 
             while (a[i] == 0)
             {
                 if (i < 0)
                     return 0;
                 i--;
             }
-
+            var n = a[i];
             while (n > 0)
             {
                 t++;
@@ -226,11 +225,11 @@ namespace MSROM
             ulong[] C = new ulong[a.Length + t];
             //--------------------------------------------//
             for (int i = 0; i < a.Length; i++)
-            {
+            {  
                 n = a[i];
                 n = n << s;
                 //if (i==0) { C[i] = (n & 0xFFFFFFFF) + carry; }
-                C[i + t] = (n & 0xFFFFFFFF) + carry;
+                C[i+t] = (n & 0xFFFFFFFF) ^ carry;
                 carry = (n & 0xFFFFFFFF00000000) >> 32;
             }
             return C;
@@ -259,7 +258,7 @@ namespace MSROM
             }
 
             string ans = string.Concat(Q.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong), '0')).Reverse()).TrimStart('0');
-            Console.WriteLine("Result we need : " + "16fdcdcdc");
+            Console.WriteLine("Result we need : " + "5C42488F9D580BBA73B6AB5FAEAB251C023E016259A48D44B1947A3837BA0E29");
 
             Console.Write("     Result        : ");
             return ans;
@@ -267,8 +266,8 @@ namespace MSROM
 
         static void Main(string[] args)
         { 
-            string a = "ffffff";
-            string b = "77";
+            string a = "D7FEF8197C133E4A8C68D83AD62AA5B7920CAADA41947129763ADC58C8E99DD40E5C0DF8222D3FE3B432CD6F0F97C7168CF0A2E7911157DDFA94986D21ABC9B6";
+            string b = "E8B40937A59BA0EF9D99D002CF4E73901228C587137C053BAB1887794154E8DD";
             ulong[] p = new ulong[1];
             ulong[] p1 = new ulong[1];
             p1 = toulong32(b);
