@@ -65,6 +65,7 @@ namespace lab1
                   "1",
                   "5C353D8D758E06E4DFFB37B5"
             )]
+            [TestCase("A208F2341973A2F517D68741B2DE1DE8921BFC4EA0A1C4DA67FE894DAF976A86", "A208F2341973A2F517D68741B2DE1DE8921BFC4EA0A1C4DA67FE894DAF976A86", "668F52D9F89E7C315B165F4A8FF1E2935238C7678A87939F5277513F121323F28EF99B183239D24AC441CFCDED27EEB743747803A8A321EA5F71DDCE0A673E24")]
             public void MulTest(string hex1, string hex2, string expectedResult)
             {
                 var a = Program.toulong32(hex1);
@@ -95,6 +96,19 @@ namespace lab1
                 var a = Program.toulong32(hex1);
                 var b = Program.toulong32(hex2);
                 var actualResult = Program.LongDivInternal(a, b);
+                Assert.AreEqual(expectedResult, actualResult);
+            }
+
+            [Test]
+            [TestCase("1",
+                  "1",
+                  "1"
+            )]
+            public void LongPowertTest(string hex1, string hex2, string expectedResult)
+            {
+                var a = Program.toulong32(hex1);
+                var b = Program.toulong32(hex2);
+                var actualResult = Program.LongPower(a, b);
                 Assert.AreEqual(expectedResult, actualResult);
             }
 
