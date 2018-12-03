@@ -271,7 +271,7 @@ namespace MSROM
             string Pow_b = Program.UlongToString(b);
             for(int i=0;i<Pow_b.Length;i++)
             {
-                C = MulUlong(C, D[Pow_b[Convert.ToInt16(i)]]);
+                C = MulUlong(C, D[Convert.ToInt32(Pow_b[i].ToString(), 16)]); 
                 if (i !=Pow_b.Length-1)
                 {
                     for (int k=1;k<=4;k++)
@@ -281,7 +281,7 @@ namespace MSROM
                 }
             }
             return C;
-        }//
+        }
 
 
         static void Main(string[] args)
