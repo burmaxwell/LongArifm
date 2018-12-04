@@ -77,9 +77,10 @@ namespace MSROM
         public static ulong[] AdditionUlong(ulong[] a, ulong[] b)
         {
             var maxlenght = Math.Max(a.Length, b.Length);
-            var answer = new ulong[maxlenght + 1];
             Array.Resize(ref a, maxlenght);
             Array.Resize(ref b, maxlenght);
+            var answer = new ulong[maxlenght + 1];
+         
             ulong carry = 0;
             for (int i = 0; i < maxlenght; i++)
             {
@@ -160,9 +161,6 @@ namespace MSROM
 
         public static ulong[] MulUlong(ulong[] a, ulong[] b)
         {
-            var maxlenght = Math.Max(a.Length, b.Length);
-            Array.Resize(ref a, maxlenght);
-            Array.Resize(ref b, maxlenght);
             ulong[] answer = new ulong[(a.Length) * 2];
             ulong[] temp;
             for (int i = 0; i < a.Length; i++)
@@ -254,11 +252,25 @@ namespace MSROM
         public static string UlongToString(ulong[] a)
             {
             string st = string.Concat(a.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong), '0')).Reverse()).TrimStart('0');
+            
             return st;
             }
 
-        public static ulong [] LongPower(ulong[] a , ulong []b)
+        public static ulong[] RemoveHighZeros(ulong[] c)
         {
+            int i = c.Length - 1;
+            while (c[i] == 0)
+            {
+                i--;
+            }
+            ulong[] result = new ulong[i + 1];
+            Array.Copy(c, result, i + 1);
+            return result;
+        }
+
+        public static string LongPower(ulong[] a , ulong []b)
+        {
+            string Pow_b = Program.UlongToString(b);
             ulong[] C = new ulong[1];
             C[0] = 0x1;
             ulong[][] D = new ulong[16][];
@@ -266,28 +278,36 @@ namespace MSROM
             D[1]=a;
             for (int i=2;i<16;i++)
             {
+                //D[i] = D[i.TrimStart('0')];
                 D[i] = MulUlong(D[i - 1], a);
+                D[i] = RemoveHighZeros(D[i]);
+                //D[i]=toulong32(UlongToString(D[i]));
             }
-            string Pow_b = Program.UlongToString(b);
-            for(int i=0;i<Pow_b.Length;i++)
+            
+            for(int i = 0; i < Pow_b.Length; i++)
             {
                 C = MulUlong(C, D[Convert.ToInt32(Pow_b[i].ToString(), 16)]); 
-                if (i !=Pow_b.Length-1)
+                if (i != Pow_b.Length - 1)
                 {
                     for (int k=1;k<=4;k++)
                     {
                         C = MulUlong(C, C);
+                        C = RemoveHighZeros(C);
                     }
                 }
             }
-            return C;
+            string ans = string.Concat(C.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong), '0')).Reverse()).TrimStart('0');
+            Console.WriteLine("Result we need : " + "32");
+            Console.Write("     Result        : ");
+            return ans;
+            //return C;
         }
 
 
         static void Main(string[] args)
         { 
-            string a = "1123";
-            string b = "11";
+            string a = "4B";
+            string b = "21";
             ulong[] p = new ulong[1];
             ulong[] p1 = new ulong[1];
             p1 = toulong32(b);
