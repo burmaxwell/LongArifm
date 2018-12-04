@@ -161,6 +161,9 @@ namespace MSROM
 
         public static ulong[] MulUlong(ulong[] a, ulong[] b)
         {
+            var maxlenght = Math.Max(a.Length, b.Length);
+            Array.Resize(ref a, maxlenght);
+            Array.Resize(ref b, maxlenght);
             ulong[] answer = new ulong[(a.Length) * 2];
             ulong[] temp;
             for (int i = 0; i < a.Length; i++)
@@ -278,10 +281,8 @@ namespace MSROM
             D[1]=a;
             for (int i=2;i<16;i++)
             {
-                //D[i] = D[i.TrimStart('0')];
                 D[i] = MulUlong(D[i - 1], a);
                 D[i] = RemoveHighZeros(D[i]);
-                //D[i]=toulong32(UlongToString(D[i]));
             }
             
             for(int i = 0; i < Pow_b.Length; i++)
@@ -297,8 +298,6 @@ namespace MSROM
                 }
             }
             string ans = string.Concat(C.Select(chunk => chunk.ToString("X").PadLeft(sizeof(ulong), '0')).Reverse()).TrimStart('0');
-            Console.WriteLine("Result we need : " + "32");
-            Console.Write("     Result        : ");
             return ans;
             //return C;
         }
