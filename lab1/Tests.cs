@@ -32,9 +32,8 @@ namespace lab1
                  "CD7D1483E3A389874644628991F7F6132A997B25CF873E6DF9D4FE331A055C6D8791037612352F669716249C4F65242E")]
             public void AdditionTest(string hex1, string hex2, string expectedResult)
              {
-                 var a = Program.toulong32(hex1);
-                 var b = Program.toulong32(hex2);
-                 var actualResult = Program.Addition(a, b);
+
+                 var actualResult = Program.AdditionUlongSt(hex1, hex2);
                  Assert.AreEqual(expectedResult, actualResult);
              }
 
@@ -51,9 +50,7 @@ namespace lab1
             [TestCase("FF92413583A4CAA23ECF4BB33025B1A58DE1217F358D0F40BE07D91AA298BB5E57B47199DA3D3EFA48487917D861CFA53CE5C0F2C46DEACAF0AC9E31C6578899", "8CFDEAF151E82924FB80AA4B861142CE6C524B34E61CC2ADED9AC5FBD650AFFAB2FBE98C1FB758D0A2C90E26DA6D7DA8623B3C49F7D4F16207A1B5D6B7875E25", "7294564431BCA17D434EA167AA146ED7218ED64A4F704C92D06D131ECC480B63A4B8880DBA85E629A57F6AF0FDF451FCDAAA84A8CC98F968E90AE85B0ED02A74")]
             public void SubtractionTest(string hex1, string hex2, string expectedResult)
             {
-                var a = Program.toulong32(hex1);
-                var b = Program.toulong32(hex2);
-                var actualResult = Program.Subtraction(a, b);
+                var actualResult = Program.SubtractionUlongSt(hex1, hex2);
                 Assert.AreEqual(expectedResult, actualResult);
             }
 
@@ -82,9 +79,7 @@ namespace lab1
             [TestCase("A208F2341973A2F517D68741B2DE1DE8921BFC4EA0A1C4DA67FE894DAF976A86", "A208F2341973A2F517D68741B2DE1DE8921BFC4EA0A1C4DA67FE894DAF976A86", "668F52D9F89E7C315B165F4A8FF1E2935238C7678A87939F5277513F121323F28EF99B183239D24AC441CFCDED27EEB743747803A8A321EA5F71DDCE0A673E24")]
             public void MulTest(string hex1, string hex2, string expectedResult)
             {
-                var a = Program.toulong32(hex1);
-                var b = Program.toulong32(hex2);
-                var actualResult = Program.LongMul(a, b);
+                var actualResult = Program.MulUlongSt(hex1, hex2);
                 Assert.AreEqual(expectedResult, actualResult);
             }
 
@@ -107,9 +102,7 @@ namespace lab1
             )]
             public void DivTest(string hex1, string hex2, string expectedResult)
             {
-                var a = Program.toulong32(hex1);
-                var b = Program.toulong32(hex2);
-                var actualResult = Program.LongDivInternal(a, b);
+                var actualResult = Program.LongDivSt(hex1, hex2);
                 Assert.AreEqual(expectedResult, actualResult);
             }
 
@@ -125,9 +118,20 @@ namespace lab1
             [TestCase("4B", "21", "2EE23EFAD9F31E4D2F24BFABDF6BEFA129ABDCF8C0116B93E4CB")]
             public void LongPowertTest(string hex1, string hex2, string expectedResult)
             {
-                var a = Program.toulong32(hex1);
-                var b = Program.toulong32(hex2);
-                var actualResult = Program.LongPower(a, b);
+                var actualResult = Program.LongPowerSt(hex1, hex2);
+                Assert.AreEqual(expectedResult, actualResult);
+            }
+            [Test]
+            [TestCase("F", "A", "5")]
+            [TestCase("4D0FFA257CCEA11EBAB1F01E65A77392D01F1", "48C1B463F2782F60D0", "1")]
+            [TestCase("1DF9E9A", "4", "2")]
+
+            public void GCDTest(string hex1, string hex2, string expectedResult)
+            {
+                //var a = Program.toulong32(hex1);
+               // var b = Program.toulong32(hex2);
+                var actualResult = Program.GCDI(hex1,hex2);
+                //actualResult = Program.UlongToString(actualResult);
                 Assert.AreEqual(expectedResult, actualResult);
             }
 
