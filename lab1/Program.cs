@@ -62,14 +62,13 @@ namespace MSROM
             for (int i = 0; i < a.Length; i++)
             {
                 temp = a[i] - b[i] - borrow;
+                answer[i] = temp & 0xffffffff;
                 if (temp <= a[i])
                 {
-                    answer[i] = temp;
                     borrow = 0;
                 }
                 else
                 {
-                    answer[i] = temp & 0xffffffff;
                     borrow = 1;
                 }
             }
@@ -333,16 +332,43 @@ namespace MSROM
             return UlongToString(ans);
         }
 
+        public static ulong[] ShiftBitsToLow(ulong[] a, int bits)
+        {
+            int t = bits / 32;
+            int neededbits = bits - t * 32;
+            ulong[] c = new ulong[a.Length-t];
+            ulong ai, ai_1 = 0;
+            for (int i=t;i<a.Length-1;i++)
+            {
+                ai = a[i];
+                ai_1 = a[i + 1];
+                ai = ai >> neededbits;
+                ai_1 = ai_1 <<(64 - neededbits);
+                ai_1 = ai_1 >>(64 - neededbits);
+                c[i - t] = ai | (ai_1<<32-neededbits) ;
+            }
+            c[a.Length-t-1] = a[a.Length - 1] >> neededbits;
+            return c;
+        }
+
+        public static string ShiftBitsToLowSt(string a1, int k)
+        {
+            var a = toulong32(a1);
+            var ans = ShiftBitsToLow(a, k);
+            return UlongToString(ans);
+        }
 
         static void Main(string[] args)
         {
-            string a = "4D0FFA257CCEA11EBAB1F01E65A77392D01F1";
+                     // 4D0FFA257CCEA11EBAB1F01E65A77392D0
+            string a = "D9231E2825ED52320EB10B42AF878433BB1AD26212EFEAA7527";
             string b = "48C1B463F2782F60D0";
             ulong[] p = new ulong[1];
             ulong[] p1 = new ulong[1];
             p1 = toulong32(b);
             p = toulong32(a);
-            Console.WriteLine(GCD(p, p1));
+            Console.WriteLine("out result :"  + UlongToString(ShiftBitsToLow(p, 52)));
+            Console.WriteLine("needed:     4D0FFA257CCEA11EBAB1F01E65A77392D0");
             Console.ReadKey();
 
         }

@@ -128,14 +128,20 @@ namespace lab1
 
             public void GCDTest(string hex1, string hex2, string expectedResult)
             {
-                //var a = Program.toulong32(hex1);
-               // var b = Program.toulong32(hex2);
                 var actualResult = Program.GCDI(hex1,hex2);
-                //actualResult = Program.UlongToString(actualResult);
                 Assert.AreEqual(expectedResult, actualResult);
             }
 
+            [Test]
+            [TestCase("EA0A3DDD98218F2B9555AEB8577AF63E2", 20, "EA0A3DDD98218F2B9555AEB8577A")]
+            [TestCase("35CCE31BCBDED06350D1B29B69D350E98EA828975EBA54312D6", 54, "D7338C6F2F7B418D4346CA6DA74D43A63AA0A")]
+            [TestCase("D9231E2825ED52320EB10B42AF878433BB1AD26212EFEAA7527", 48,"D9231E2825ED52320EB10B42AF878433BB1AD26")]
 
+            public void ShiftBitsToLowTest(string hex1, int k, string expectedResult)
+            {
+                var actualResult = Program.ShiftBitsToLowSt(hex1, k);
+                Assert.AreEqual(expectedResult, actualResult);
+            }
         }
 
     }
