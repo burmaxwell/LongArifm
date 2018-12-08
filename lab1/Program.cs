@@ -185,7 +185,7 @@ namespace MSROM
             return C;
         }
 
-        public static ulong[]  LongDiv(ulong[] a, ulong[] b)
+        public static ulong[]  LongDiv(ulong[] a, ulong[]b)
         {
             var k = BitLength(b);
             var R = a;
@@ -207,6 +207,7 @@ namespace MSROM
                 Q = AdditionUlong(Q, LongShiftBitsToHigh(T, t - k));
             }
             Q = RemoveHighZeros(Q);
+            //r = R;
             return Q;
       
         }
@@ -357,6 +358,63 @@ namespace MSROM
             var ans = ShiftBitsToLow(a, k);
             return UlongToString(ans);
         }
+
+        public static ulong[] Mod(ulong[] a, ulong[] b)
+        {
+            var k = BitLength(b);
+            var R = a;
+            ulong[] Q = new ulong[a.Length];
+            ulong[] T = new ulong[a.Length];
+            ulong[] C = new ulong[a.Length];
+            T[0] = 0x1;
+
+            while (LongCmp(R, b) >= 0)
+            {
+                var t = BitLength(R);
+                C = LongShiftBitsToHigh(b, t - k);
+                if (LongCmp(R, C) == -1)
+                {
+                    t = t - 1;
+                    C = LongShiftBitsToHigh(b, t - k);
+                }
+                R = SubtractionUlong(R, C);
+                Q = AdditionUlong(Q, LongShiftBitsToHigh(T, t - k));
+            }
+            return R;
+
+        }
+
+        public static string ModSt(string a1, string b1)
+        {
+            var a = toulong32(a1);
+            var b = toulong32(b1);
+            var ans = Mod(a, b);
+            return UlongToString(ans);
+        }
+
+         public static ulong[] AddMod(ulong[] a,ulong[]b,ulong[] mod)
+        {
+            var ans =Mod(AdditionUlong(a,b),mod);
+            return ans;
+        }
+
+        public static string AddModSt(string a1, string b1, string mod1)
+        { 
+            var a = toulong32(a1);
+            var b = toulong32(b1);
+            var mod = toulong32(mod1);
+            var ans = AddMod(a, b, mod);
+            return UlongToString(ans);
+        }
+
+        public static ulong[] BarrettReduction(ulong[] a, ulong[] b, ulong[] m,int k)
+        {
+            ulong[] r = new ulong[a.Length];
+            ulong[] q = new ulong[1];
+            return r;
+        }
+
+
 
         static void Main(string[] args)
         {
