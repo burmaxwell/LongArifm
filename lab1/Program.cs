@@ -407,6 +407,37 @@ namespace MSROM
             return UlongToString(ans);
         }
 
+        static public ulong[] SubMod(ulong[] a, ulong[] b, ulong[] mod)
+        {
+            var ans = Mod(SubtractionUlong(a, b), mod);
+            return ans;
+        }
+
+        public static string SubModSt(string a1, string b1, string mod1)
+        {
+            var a = toulong32(a1);
+            var b = toulong32(b1);
+            var mod = toulong32(mod1);
+            var ans = SubMod(a, b, mod);
+            return UlongToString(ans);
+        }
+
+        public static ulong[] MulMod(ulong[] a, ulong[] b, ulong[] mod)
+        {
+            var ans = Mod(MulUlong(a, b), mod);
+            return ans;
+        }
+
+        public static string MulModSt(string a1, string b1, string mod1)
+        {
+            var a = toulong32(a1);
+            var b = toulong32(b1);
+            var mod = toulong32(mod1);
+            var ans = MulMod(a, b, mod);
+            return UlongToString(ans);
+        }
+
+        // Барет поки хз я делать . НІПАНЯТНА!
         public static ulong[] BarrettReduction(ulong[] a, ulong[] b, ulong[] m,int k)
         {
             ulong[] r = new ulong[a.Length];
