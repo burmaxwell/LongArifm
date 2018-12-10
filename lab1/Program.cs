@@ -447,16 +447,16 @@ namespace MSROM
             return Mu;
         }
 
-        public static ulong[] BarrettReduction(ulong[] x, ulong[] n )
-        {
-            var k = BitLength(n);
+        public static ulong[] BarrettReduction(ulong[] x, ulong[] n)
+        { 
             var mu = Mu_For_Barrett(n);
+            var k = BitLength(n);
             var q = ShiftBitsToLow(x, k - 1);
             q = MulUlong(q, mu);
             q = ShiftBitsToLow(q, k + 1);
 
             var r = SubtractionUlong(x, MulUlong(q, n));
-            while (LongCmp(r,n) >= 0)
+            if (LongCmp(r,n) >= 0)
             {
                 r = SubtractionUlong(r, n);
             }
@@ -471,7 +471,7 @@ namespace MSROM
             return UlongToString(ans);
         }
 
-        public static ulong[] LongBarrettPower(ulong[] a, ulong[] b,ulong[] mod)
+        public static ulong[] LongModPower(ulong[] a, ulong[] b,ulong[] mod)
         {
             string Pow_b = Program.UlongToString(b);
             ulong[] C = new ulong[1];
@@ -488,13 +488,13 @@ namespace MSROM
             for (int i = 0; i < Pow_b.Length; i++)
             {
                 C = MulUlong(C, D[Convert.ToInt32(Pow_b[i].ToString(), 16)]);
-                C = BarrettReduction(C, mod);
+                C = Mod(C, mod);
                 if (i != Pow_b.Length - 1)
                 {
                     for (int k = 1; k <= 4; k++)
                     {
                         C = MulUlong(C, C);
-                        C = BarrettReduction(C, mod);
+                        C = Mod(C, mod);
                         C = RemoveHighZeros(C);
                     }
                 }
@@ -502,21 +502,24 @@ namespace MSROM
             return C;
         }
 
-        public static string LongBarrettPowerSt(string a1, string b1, string mod1)
+        public static string ModPowerSt(string a1, string b1, string mod1)
         {
             var a = toulong32(a1);
             var b = toulong32(b1);
             var mod = toulong32(mod1);
-            var ans = LongBarrettPower(a, b, mod);
+            var ans = LongModPower(a, b, mod);
             return UlongToString(ans);
         }
+       /*public static ulong[] LongModPowerBarrett(ulong[]a,ulong[]b,ulong[]n)
+        {
 
-
+           return C;
+        }*/
 
 
         static void Main(string[] args)
         {
-            string a = "E51C9687DB7BEDE1A7F0718B8329D08C7FC31225880A7D8C23BDA5FB731B863CA311B73559F1A649CBD9D9C84A77B57BF1BA8FC6D98160D15B632EA4D42FC4725FBD232A03BA38E14096FF447BC0C55809AB8FDD5904EB86DAF168EA169A703307A7480D5CB773DEA53C4F85F30DE46A21C56BC960003A4AD976BBFE40DF4564";
+            string a = "EA0A3DDD98218F2B9555AEB8577AF63E2";
             string b = "BE4290BA83AB483CD0C470A709C13794CE1BC45D5050A4E4298C50BF89963C1A65635F82151D041C9051444BD23164B677DF63D1C8A6801C598DFE901AA64E78851B208432D214076C3F03FA4E21A2A96BAAD535F1D3A62B409F249E6424571199738330ACA335E826390B9DEB80BF113771081EFDB282F57060E776C197ECE8";
             string mod = "40F43E45D506C892C36A80D1F1AF9D2427179711B7C12C1B5BAAF8453C2CC710CBF9144D2A6B8CE297529C8CB56C5353FDA7E4C03B3BEC4DBBD96AD75F00011BE784C7F2B99F18539700D7189D4089ED88AE5BC02799F74DA331CC430C22E4F2A638812B3CCC1422AD137B81D90E9040949D12D7BEE4EFB17BA5AAEFC739EA2A";
             ulong[] p = new ulong[1];
@@ -525,7 +528,7 @@ namespace MSROM
             p1 = toulong32(b);
             p = toulong32(a);
             mod1 = toulong32(mod);
-            Console.WriteLine("out result :"  + UlongToString(LongBarrettPower(p,p1,mod1)));
+            Console.WriteLine("out result :"  + p1);
             Console.WriteLine("needed:     1F561A664D81762BD16A088219A4DD6C10C9181160B789AC10544B3366714FFAE9404A0D15A4152A54E2AB78F181C33FEC25F68004B888953B4AC2F78D23E971E7C43710CD89E1E6D0BD3AF57AB55887964B3968B6854E83B7FDE7A9B85DCBC8E2D1A83C0F2D1AEC8D0273D989C287C0B0A45279CCF4F5F62EDA4A15CB8C17F4");
             Console.ReadKey();
 
