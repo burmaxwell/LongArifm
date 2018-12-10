@@ -488,13 +488,13 @@ namespace MSROM
             for (int i = 0; i < Pow_b.Length; i++)
             {
                 C = MulUlong(C, D[Convert.ToInt32(Pow_b[i].ToString(), 16)]);
-                C = Mod(C, mod);
+                C = BarrettReduction(C, mod);
                 if (i != Pow_b.Length - 1)
                 {
                     for (int k = 1; k <= 4; k++)
                     {
                         C = MulUlong(C, C);
-                        C = Mod(C, mod);
+                        C = BarrettReduction(C, mod);
                         C = RemoveHighZeros(C);
                     }
                 }
