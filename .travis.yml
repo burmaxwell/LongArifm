@@ -6,4 +6,4 @@ before_install:
 before_script:
   - nuget restore lab1.sln
 after_script:
-  - nunit-console lab1/Tests.cs
+  - nunit-console lab1/lab1.csproj
