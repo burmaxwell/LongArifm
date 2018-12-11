@@ -1,0 +1,7 @@
+language: csharp
+solution: lab1.sln # your csharp solution file
+script:    # the following commands are just examples, use whatever your build process requires
+  - ./build.sh
+  - ./test.sh
+  - ./Tests.cs
+  - ./Program.cs
