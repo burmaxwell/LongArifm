@@ -250,6 +250,14 @@ namespace lab1
                 Assert.AreEqual(expectedResult, actualResult);
             }
 
+            [Test]
+            [TestCase("23423424", "141234214", "2C3ADE8817895AD0")]
+            [TestCase("23423424FFF11111BBBBBBB", "141234214AAACCC22227886869", "2C3ADE89701BA475C6F8D1734B6F2068D513ED73DC9BF7B3")]
+            public void KaratsubaTest(string hex1, string hex2, string expectedResult)
+            {
+                var actualResult = Program.KaratsubaSt(hex1, hex2);
+                Assert.AreEqual(expectedResult, actualResult);
+            }
         }
 
 
