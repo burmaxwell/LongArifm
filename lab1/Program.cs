@@ -613,7 +613,7 @@ namespace MSROM
             ulong[] mod1 = new ulong[1];
             p1 = toulong32(b);
             p = toulong32(a);
-            mod1 = toulong32(mod);
+            mod1 = toulong32(mod);//
             
             Console.WriteLine("         "+UlongToString( Karatsuba(p,p1)));
             Console.WriteLine("But need:" + "2C3ADE8970188AB107D556");
