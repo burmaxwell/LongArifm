@@ -1,5 +1,7 @@
 language: csharp
-solution: lab1.sln # your csharp solution file
-script:    # the following commands are just examples, use whatever your build process requires
-  - ./Tests.cs
-  - ./Program.cs
+script:
+  - xbuild /p:Configuration=Debug lab1.sln
+before_install:
+  - sudo apt-get install nunit-console
+before_script:
+  - nuget restore lab1.sln
