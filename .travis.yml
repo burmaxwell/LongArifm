@@ -1,0 +1,9 @@
+language: csharp
+script:
+  - xbuild /p:Configuration=Debug lab1.sln
+before_install:
+  - sudo apt-get install nunit-console
+before_script:
+  - nuget restore lab1.sln
+after_script:
+  - nunit-console lab1/lab1.csproj
